@@ -17,7 +17,7 @@ namespace ActivityLogger.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<CategoryListDto>> GetSelectableCategoriesAsync(CancellationToken ct = default)
+        public async Task<IEnumerable<CategoryListDto>> GetAvailableCategoriesAsync(CancellationToken ct = default)
         {
             var result = await _context.Categories
                 .Include(c => c.Parent)

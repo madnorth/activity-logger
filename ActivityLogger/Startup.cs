@@ -1,4 +1,5 @@
 using ActivityLogger.Entities;
+using ActivityLogger.Middlewares;
 using ActivityLogger.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,7 +33,7 @@ namespace ActivityLogger
 
             services.AddTransient<ICategoryService, CategoryService>();
 
-            services.AddControllersWithViews();
+            services.AddControllers();
             
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -45,16 +46,9 @@ namespace ActivityLogger
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddSerilog();
-
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Error");
-            }
-
+            
+            app.UseMiddleware<CustomExceptionMiddleware>();
+            
             app.UseStaticFiles();
             if (!env.IsDevelopment())
             {

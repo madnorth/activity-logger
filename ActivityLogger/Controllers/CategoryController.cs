@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ActivityLogger.Dtos;
+﻿using ActivityLogger.Dtos;
 using ActivityLogger.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ActivityLogger.Controllers
 {
@@ -23,19 +20,12 @@ namespace ActivityLogger.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CategoryListDto>>> GetAvailableCategories()
         {
-            try
+            var result = await _categoryService.GetAvailableCategoriesAsync();
+            if (result == null)
             {
-                var result = await _categoryService.GetSelectableCategoriesAsync();
-                if(result == null)
-                {
-                    return NotFound();
-                }
-                return Ok(result);
+                return NotFound();
             }
-            catch (Exception e)
-            {
-                return StatusCode(500, e);
-            }
+            return Ok(result);
         }
     }
 }
