@@ -1,4 +1,5 @@
 ﻿using ActivityLogger.Entities.Configurations;
+using ActivityLogger.Entities.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ActivityLogger.Entities

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace ActivityLogger.Entities
+namespace ActivityLogger.Entities.Models
 {
     public class Activity
     {

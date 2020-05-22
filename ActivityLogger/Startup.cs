@@ -1,4 +1,5 @@
 using ActivityLogger.Entities;
+using ActivityLogger.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
@@ -27,7 +28,10 @@ namespace ActivityLogger
                     )
                 );
 
+            services.AddTransient<ICategoryService, CategoryService>();
+
             services.AddControllersWithViews();
+            
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
