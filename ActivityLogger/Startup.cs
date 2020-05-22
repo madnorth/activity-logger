@@ -63,7 +63,10 @@ namespace ActivityLogger
 
                 if (env.IsDevelopment())
                 {
-                    spa.UseAngularCliServer(npmScript: "start");
+                    //https://github.com/dotnet/aspnetcore/issues/17277
+                    //spa.UseAngularCliServer(npmScript: "start");
+
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:4200/"); //run "ng serve" befor start
                 }
             });
         }
