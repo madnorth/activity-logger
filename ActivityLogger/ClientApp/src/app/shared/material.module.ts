@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { MatButtonModule } from '@angular/material/button';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -13,19 +15,24 @@ import { MatToolbarModule } from '@angular/material/toolbar';
   declarations: [],
   exports: [
     MatButtonModule,
+    MatDatepickerModule,
     MatFormFieldModule,
     MatInputModule,
+    MatMomentDateModule,
     MatProgressBarModule,
+    MatSelectModule,
     MatSnackBarModule,
     MatTableModule,
     MatToolbarModule
   ],
   imports: [
-    CommonModule,
     MatButtonModule,
+    MatDatepickerModule,
     MatFormFieldModule,
     MatInputModule,
+    MatMomentDateModule,
     MatProgressBarModule,
+    MatSelectModule,
     MatSnackBarModule,
     MatTableModule,
     MatToolbarModule
