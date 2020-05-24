@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
+using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace ActivityLogger.Middlewares
@@ -33,20 +34,34 @@ namespace ActivityLogger.Middlewares
 
         private Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
-            _logger.LogError(exception, "<--! App Server Exception !-->");
-
             var statusCode = HttpStatusCode.InternalServerError;
+            var result = string.Empty;
 
-            if (exception is HttpRequestException) statusCode = HttpStatusCode.BadRequest;
-
-            string result = JsonConvert.SerializeObject(new
+            switch (exception)
             {
-                error = new
+                case ValidationException e:
+                    statusCode = HttpStatusCode.BadRequest;
+                    result = JsonConvert.SerializeObject(new
+                    {
+                        ValidationErrors = e.Errors.Select(f => new { f.PropertyName, f.ErrorMessage })
+                    });
+                    break;
+
+                default:
+                    _logger.LogError(exception, "<--! App Server Exception !-->");
+                    break;
+            }
+
+            if (string.IsNullOrEmpty(result))
+            {
+                result = JsonConvert.SerializeObject(new
                 {
-                    Message = exception.Message,
-                    Stack = exception.StackTrace //TODO: Just in DEV env
-                }
-            });
+                    Error = new
+                    {
+                        Message = exception.Message
+                    }
+                });
+            }
 
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)statusCode;

@@ -8,8 +8,8 @@ namespace ActivityLogger.Entities.Models
         public long Id { get; set; }
         
         [Required]
-        public Category Category { get; set; }
-        
+        public int CategoryId { get; set; }
+
         [Required]
         public DateTime StartDate { get; set; }
 
@@ -18,5 +18,7 @@ namespace ActivityLogger.Entities.Models
 
         [Required]
         public string Comment { get; set; }
+
+        public Category Category { get; set; }
     }
 }

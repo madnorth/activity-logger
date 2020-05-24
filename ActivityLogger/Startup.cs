@@ -1,6 +1,12 @@
+using ActivityLogger.Dtos;
 using ActivityLogger.Entities;
+using ActivityLogger.Entities.Models;
 using ActivityLogger.Middlewares;
 using ActivityLogger.Services;
+using ActivityLogger.Validators;
+using AutoMapper;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
@@ -9,6 +15,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Serilog;
 
 namespace ActivityLogger
@@ -25,16 +33,26 @@ namespace ActivityLogger
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
+            ValidatorOptions.LanguageManager.Enabled = false;
+
             services.AddDbContext<AppDbContext>(options =>
                 options.UseNpgsql(
                         Configuration.GetConnectionString("PostgreSqlServerConnctionString")
                     )
                 );
 
+            services.AddTransient<IActivityService, ActivityService>();
             services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<IValidator<ActivityCreateDto>, ActivityValidator>();
+
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddControllers();
-            
+
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {

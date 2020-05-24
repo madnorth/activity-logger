@@ -18,7 +18,7 @@ namespace ActivityLogger.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CategoryListDto>>> GetAvailableCategories()
+        public async Task<ActionResult<IEnumerable<CategoryDto>>> GetAvailableCategories()
         {
             var result = await _categoryService.GetAvailableCategoriesAsync();
             if (result == null)

@@ -9,6 +9,7 @@ namespace ActivityLogger.Services
 {
     public interface ICategoryService
     {
-        Task<IEnumerable<CategoryListDto>> GetAvailableCategoriesAsync(CancellationToken ct = default);
+        Task<IEnumerable<CategoryDto>> GetAvailableCategoriesAsync(CancellationToken ct = default);
+        Task<bool> IsValidCategoryAsync(int categoryId, CancellationToken ct = default);
     }
 }

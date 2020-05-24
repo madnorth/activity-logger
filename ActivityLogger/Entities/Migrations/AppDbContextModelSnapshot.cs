@@ -19,7 +19,7 @@ namespace ActivityLogger.Entities.Migrations
                 .HasAnnotation("ProductVersion", "3.1.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("ActivityLogger.Entities.Activity", b =>
+            modelBuilder.Entity("ActivityLogger.Entities.Models.Activity", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -46,7 +46,7 @@ namespace ActivityLogger.Entities.Migrations
                     b.ToTable("Activities");
                 });
 
-            modelBuilder.Entity("ActivityLogger.Entities.Category", b =>
+            modelBuilder.Entity("ActivityLogger.Entities.Models.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -114,18 +114,18 @@ namespace ActivityLogger.Entities.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ActivityLogger.Entities.Activity", b =>
+            modelBuilder.Entity("ActivityLogger.Entities.Models.Activity", b =>
                 {
-                    b.HasOne("ActivityLogger.Entities.Category", "Category")
+                    b.HasOne("ActivityLogger.Entities.Models.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ActivityLogger.Entities.Category", b =>
+            modelBuilder.Entity("ActivityLogger.Entities.Models.Category", b =>
                 {
-                    b.HasOne("ActivityLogger.Entities.Category", "Parent")
+                    b.HasOne("ActivityLogger.Entities.Models.Category", "Parent")
                         .WithMany("Children")
                         .HasForeignKey("ParentId")
                         .OnDelete(DeleteBehavior.Restrict);

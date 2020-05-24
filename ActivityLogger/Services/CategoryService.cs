@@ -1,5 +1,7 @@
 ﻿using ActivityLogger.Dtos;
 using ActivityLogger.Entities;
+using ActivityLogger.Entities.Models;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,13 +13,15 @@ namespace ActivityLogger.Services
     public class CategoryService : ICategoryService
     {
         private readonly AppDbContext _context;
+        private readonly IMapper _mapper;
 
-        public CategoryService(AppDbContext context)
+        public CategoryService(AppDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
-        public async Task<IEnumerable<CategoryListDto>> GetAvailableCategoriesAsync(CancellationToken ct = default)
+        public async Task<IEnumerable<CategoryDto>> GetAvailableCategoriesAsync(CancellationToken ct = default)
         {
             var result = await _context.Categories
                 .Include(c => c.Parent)
@@ -25,12 +29,14 @@ namespace ActivityLogger.Services
                 .OrderBy(c => c.Name)
                 .ToListAsync(ct);
 
-            return result.Select(c => new CategoryListDto
-            {
-                Id = c.Id,
-                Name = c.Name,
-                ParentName = c.Parent?.Name
-            });
+            return result.Select(c => _mapper.Map<Category, CategoryDto>(c));
+        }
+
+        public async Task<bool> IsValidCategoryAsync(int categoryId, CancellationToken ct = default)
+        {
+            var result = await _context.Categories.Where(c => c.Id == categoryId).FirstOrDefaultAsync(ct);
+            
+            return result != null;
         }
     }
 }
