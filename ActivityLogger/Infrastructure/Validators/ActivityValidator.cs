@@ -2,11 +2,10 @@
 using ActivityLogger.Services;
 using FluentValidation;
 using System;
-using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ActivityLogger.Validators
+namespace ActivityLogger.Infrastructure.Validators
 {
     public class ActivityValidator : AbstractValidator<ActivityCreateDto>
     {

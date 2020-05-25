@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using ActivityLogger.Dtos;
 using ActivityLogger.Services;
-using ActivityLogger.Validators;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

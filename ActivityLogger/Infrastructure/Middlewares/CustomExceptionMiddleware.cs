@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using ActivityLogger.Infrastructure.Exceptions;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -7,7 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace ActivityLogger.Middlewares
+namespace ActivityLogger.Infrastructure.Middlewares
 {
     public class CustomExceptionMiddleware
     {
@@ -44,6 +45,14 @@ namespace ActivityLogger.Middlewares
                     result = JsonConvert.SerializeObject(new
                     {
                         ValidationErrors = e.Errors.Select(f => new { f.PropertyName, f.ErrorMessage })
+                    });
+                    break;
+
+                case BusinessLogicException e:
+                    statusCode = HttpStatusCode.BadRequest;
+                    result = JsonConvert.SerializeObject(new
+                    {
+                        BusinessLogicError = e.Message
                     });
                     break;
 

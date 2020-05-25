@@ -1,9 +1,9 @@
 using ActivityLogger.Dtos;
 using ActivityLogger.Entities;
 using ActivityLogger.Entities.Models;
-using ActivityLogger.Middlewares;
+using ActivityLogger.Infrastructure.Middlewares;
+using ActivityLogger.Infrastructure.Validators;
 using ActivityLogger.Services;
-using ActivityLogger.Validators;
 using AutoMapper;
 using FluentValidation;
 using FluentValidation.AspNetCore;
