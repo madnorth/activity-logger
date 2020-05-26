@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ActivityLogger.Dtos;
+﻿using ActivityLogger.Dtos;
 using ActivityLogger.Services;
 using FluentValidation;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ActivityLogger.Controllers
 {
@@ -24,11 +22,22 @@ namespace ActivityLogger.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ActivityDto>> Create([FromBody]ActivityCreateDto activity)
+        public async Task<ActionResult<ActivityDto>> Create([FromBody] ActivityCreateDto activity)
         {
             await _validator.ValidateAndThrowAsync(activity);
-            var result = await _activityService.CreateAsync(activity);
+            var result = await _activityService.CreateActivityLogAsync(activity);
 
+            return Ok(result);
+        }
+
+        [HttpGet("report")]
+        public async Task<ActionResult<IEnumerable<ReportItemDto>>> Report([FromQuery] DateTime date)
+        {
+            var result = await _activityService.GetDailyReportAsync(date);
+            if (result == null)
+            {
+                return NotFound();
+            }
             return Ok(result);
         }
     }
