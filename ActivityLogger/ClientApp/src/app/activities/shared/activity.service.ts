@@ -6,6 +6,7 @@ import { catchError, retry } from 'rxjs/operators';
 import { Category } from './category.model';
 import { Activity } from './activity.model';
 import { ReportItem } from 'src/app/report/shared/report-item.model';
+import { ReportResponse } from 'src/app/report/shared/report-response.model';
 
 @Injectable({
   providedIn: 'root'
@@ -54,12 +55,12 @@ export class ActivityService {
       );
   }
 
-  fetchReportData(date: string): Observable<ReportItem[]> {
+  fetchReportData(date: string): Observable<ReportResponse> {
     const options = {
       params: new HttpParams().set('date', date)
     }
     return this.http
-      .get<ReportItem[]>(this.apiUrl + '/activity/report', options)
+      .get<ReportResponse>(this.apiUrl + '/activity/report', options)
       .pipe(
         retry(3),
         catchError(this.handleError)

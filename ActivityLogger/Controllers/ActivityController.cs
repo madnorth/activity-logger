@@ -38,7 +38,13 @@ namespace ActivityLogger.Controllers
             {
                 return NotFound();
             }
-            return Ok(result);
+
+            return Ok(
+                new
+                {
+                    QueriedDate = date,
+                    Data = result
+                });
         }
     }
 }
