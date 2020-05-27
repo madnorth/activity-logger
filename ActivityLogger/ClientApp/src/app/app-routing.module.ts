@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { ActivitiesComponent } from './activities/activities.component';
+import { ReportComponent } from './report/report.component';
 
 
 const routes: Routes = [
   { path: '', component: ActivitiesComponent },
-  { path: 'fetch-data', component: FetchDataComponent }
+  { path: 'daily-report', component: ReportComponent }
 ];
 
 @NgModule({

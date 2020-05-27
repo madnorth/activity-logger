@@ -1,8 +1,8 @@
-﻿using ActivityLogger.Entities.Configurations;
-using ActivityLogger.Entities.Models;
+﻿using ActivityLogger.Data.Configurations;
+using ActivityLogger.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace ActivityLogger.Entities
+namespace ActivityLogger.Data
 {
     public class AppDbContext : DbContext
     {

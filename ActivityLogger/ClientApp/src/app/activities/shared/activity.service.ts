@@ -1,10 +1,11 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable, throwError, Subject } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 
 import { Category } from './category.model';
 import { Activity } from './activity.model';
+import { ReportItem } from 'src/app/report/shared/report-item.model';
 
 @Injectable({
   providedIn: 'root'
@@ -47,6 +48,18 @@ export class ActivityService {
   fetchActivities(): Observable<Activity[]> {
     return this.http
       .get<Activity[]>(this.apiUrl + '/activity')
+      .pipe(
+        retry(3),
+        catchError(this.handleError)
+      );
+  }
+
+  fetchReportData(date: string): Observable<ReportItem[]> {
+    const options = {
+      params: new HttpParams().set('date', date)
+    }
+    return this.http
+      .get<ReportItem[]>(this.apiUrl + '/activity/report', options)
       .pipe(
         retry(3),
         catchError(this.handleError)

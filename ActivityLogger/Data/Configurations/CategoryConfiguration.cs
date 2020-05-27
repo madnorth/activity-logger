@@ -1,8 +1,8 @@
-﻿using ActivityLogger.Entities.Models;
+﻿using ActivityLogger.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ActivityLogger.Entities.Configurations
+namespace ActivityLogger.Data.Configurations
 {
     public class CategoryConfiguration : IEntityTypeConfiguration<Category>
     {

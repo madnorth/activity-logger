@@ -1,6 +1,6 @@
-﻿using ActivityLogger.Dtos;
-using ActivityLogger.Entities;
-using ActivityLogger.Entities.Models;
+﻿using ActivityLogger.Data;
+using ActivityLogger.Data.Models;
+using ActivityLogger.Dtos;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -35,7 +35,7 @@ namespace ActivityLogger.Services
         public async Task<bool> IsValidCategoryAsync(int categoryId, CancellationToken ct = default)
         {
             var result = await _context.Categories.Where(c => c.Id == categoryId).FirstOrDefaultAsync(ct);
-            
+
             return result != null;
         }
     }

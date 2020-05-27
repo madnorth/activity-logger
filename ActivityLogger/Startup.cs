@@ -1,15 +1,12 @@
+using ActivityLogger.Data;
 using ActivityLogger.Dtos;
-using ActivityLogger.Entities;
-using ActivityLogger.Entities.Models;
 using ActivityLogger.Infrastructure.Middlewares;
 using ActivityLogger.Infrastructure.Validators;
 using ActivityLogger.Services;
 using AutoMapper;
 using FluentValidation;
-using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -64,9 +61,9 @@ namespace ActivityLogger
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddSerilog();
-            
+
             app.UseMiddleware<CustomExceptionMiddleware>();
-            
+
             app.UseStaticFiles();
             if (!env.IsDevelopment())
             {

@@ -10,24 +10,22 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { MaterialModule } from './shared/material.module';
 import { LayoutComponent } from './layout/layout.component';
 import { ActivitiesComponent } from './activities/activities.component';
 import { ActivityFormComponent } from './activities/activity-form/activity-form.component';
 import { ActivityListComponent } from './activities/activity-list/activity-list.component';
+import { ReportComponent } from './report/report.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
-    HomeComponent,
-    FetchDataComponent,
     LayoutComponent,
     ActivitiesComponent,
     ActivityFormComponent,
-    ActivityListComponent
+    ActivityListComponent,
+    ReportComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

@@ -1,6 +1,6 @@
-﻿using ActivityLogger.Dtos;
-using ActivityLogger.Entities;
-using ActivityLogger.Entities.Models;
+﻿using ActivityLogger.Data;
+using ActivityLogger.Data.Models;
+using ActivityLogger.Dtos;
 using ActivityLogger.Infrastructure.Exceptions;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;

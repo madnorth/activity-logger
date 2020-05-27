@@ -1,0 +1,28 @@
+<h1>Daily Report</h1>
+
+<mat-progress-bar mode="indeterminate" *ngIf="!dataSource"></mat-progress-bar>
+
+<table mat-table [dataSource]="dataSource" matSort matSortActive="categoryName" matSortDisableClear
+    matSortDirection="asc">
+    <ng-container matColumnDef="categoryName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Category </th>
+        <td mat-cell *matCellDef="let reportItem"> {{reportItem.categoryName}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="duration">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Duration </th>
+        <td mat-cell *matCellDef="let reportItem"> {{reportItem.duration}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="comments">
+        <th mat-header-cell *matHeaderCellDef> Comments </th>
+        <td mat-cell *matCellDef="let reportItem">
+            <mat-list role="list">
+                <mat-list-item role="listitem" *ngFor="let comment of reportItem.comments">{{comment}}</mat-list-item>
+            </mat-list>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
