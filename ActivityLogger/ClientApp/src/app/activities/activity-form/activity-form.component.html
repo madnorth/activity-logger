@@ -1,4 +1,6 @@
-<form autocomplete="off" [formGroup]="activityForm" (ngSubmit)="onSubmit()">
+<mat-spinner *ngIf="isSaving"></mat-spinner>
+
+<form *ngIf="!isSaving" autocomplete="off" [formGroup]="activityForm" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="fill">
         <mat-label>Category</mat-label>
         <mat-select required formControlName="category">

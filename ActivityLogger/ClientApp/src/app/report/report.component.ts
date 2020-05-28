@@ -1,11 +1,13 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Subscription } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 import { ReportItem } from './shared/report-item.model';
 import { ActivityService } from '../activities/shared/activity.service';
 
 import * as moment from 'moment';
-import { MatInput } from '@angular/material/input';
 
 const DATE_FORMAT: string = 'YYYY-M-D';
 
@@ -14,7 +16,7 @@ const DATE_FORMAT: string = 'YYYY-M-D';
   templateUrl: './report.component.html',
   styleUrls: ['./report.component.scss']
 })
-export class ReportComponent implements OnInit {
+export class ReportComponent implements OnInit, OnDestroy {
 
   dataSource: MatTableDataSource<ReportItem>;
   displayedColumns: string[] = ['categoryName', 'duration', 'comments'];
@@ -22,14 +24,24 @@ export class ReportComponent implements OnInit {
   queriedDate: moment.Moment;
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @ViewChild('dateInput', { read: MatInput }) dateInput: MatInput;
+
+  private fetchData$: Subscription;
 
   constructor(
-    private activityService: ActivityService
+    private activityService: ActivityService,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
     this.fetchData(moment().format(DATE_FORMAT));
+  }
+
+  ngOnDestroy(): void {
+    if (this.fetchData$) {
+      this.fetchData$.unsubscribe();
+    }
+
+    this.snackBar.dismiss();
   }
 
   onGetReport(): void {
@@ -39,7 +51,7 @@ export class ReportComponent implements OnInit {
   }
 
   private fetchData(date: string): void {
-    this.activityService.fetchReportData(date)
+    this.fetchData$ = this.activityService.fetchReportData(date)
       .subscribe(
         respData => {
           this.dataSource = new MatTableDataSource(respData.data);
@@ -47,7 +59,7 @@ export class ReportComponent implements OnInit {
           this.queriedDate = moment(respData.queriedDate);
         },
         error => {
-          //this.snackBar.open(error, "close");
+          this.snackBar.open(error, "close");
         }
       );
   }

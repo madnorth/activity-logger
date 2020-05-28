@@ -5,7 +5,6 @@ import { catchError, retry } from 'rxjs/operators';
 
 import { Category } from './category.model';
 import { Activity } from './activity.model';
-import { ReportItem } from 'src/app/report/shared/report-item.model';
 import { ReportResponse } from 'src/app/report/shared/report-response.model';
 
 @Injectable({
@@ -47,6 +46,7 @@ export class ActivityService {
   }
 
   fetchActivities(): Observable<Activity[]> {
+    ///TODO: Not working yet... API not exist at back-end
     return this.http
       .get<Activity[]>(this.apiUrl + '/activity')
       .pipe(
@@ -86,8 +86,13 @@ export class ActivityService {
   }
 
   private handleError(error: HttpErrorResponse) {
-    console.error(error);
+    // console.error(error);
+    let messageText = "Something went wrong... Please try again later.";
 
-    return throwError("Something went wrong... Please try again later.");
+    if (error.error.businessLogicError) {
+      messageText = error.error.businessLogicError;
+    }
+
+    return throwError(messageText);
   }
 }

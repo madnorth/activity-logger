@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Subscription } from 'rxjs';
 
 import * as moment from 'moment';
 import { Category } from '../shared/category.model';
 import { ActivityService } from '../shared/activity.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Activity } from '../shared/activity.model';
 
 class Time {
   constructor(
@@ -19,12 +19,15 @@ class Time {
   templateUrl: './activity-form.component.html',
   styleUrls: ['./activity-form.component.scss']
 })
-export class ActivityFormComponent implements OnInit {
+export class ActivityFormComponent implements OnInit, OnDestroy {
 
   activityForm: FormGroup;
   categories: Category[];
   isSaving = false;
   nowDateTime: moment.Moment;
+
+  private fetchCategories$: Subscription;
+  private saveActivity$: Subscription;
 
   constructor(
     private fb: FormBuilder,
@@ -50,13 +53,25 @@ export class ActivityFormComponent implements OnInit {
     this.fetchCategories();
   }
 
+  ngOnDestroy(): void {
+    if (this.fetchCategories$) {
+      this.fetchCategories$.unsubscribe();
+    }
+
+    if (this.saveActivity$) {
+      this.saveActivity$.unsubscribe();
+    }
+
+    this.snackBar.dismiss();
+  }
+
   onSubmit(): void {
     this.isSaving = true;
     this.saveActivity();
   }
 
   private fetchCategories(): void {
-    this.activityService.getAvailableCategories()
+    this.fetchCategories$ = this.activityService.getAvailableCategories()
       .subscribe(
         data => {
           this.categories = data
@@ -81,7 +96,7 @@ export class ActivityFormComponent implements OnInit {
   }
 
   private saveActivity(): void {
-    this.activityService.createNewActivity(
+    this.saveActivity$ = this.activityService.createNewActivity(
       this.activityForm.value['category'],
       this.retrieveDateTimeString(this.activityForm.get('startDateTime.startDate').value, this.activityForm.get('startDateTime.startTime').value),
       this.retrieveDateTimeString(this.activityForm.get('endDateTime.endDate').value, this.activityForm.get('endDateTime.endTime').value),
@@ -91,6 +106,7 @@ export class ActivityFormComponent implements OnInit {
         data => {
           this.activityService.addActivity(data);
           this.activityForm.reset();
+          this.snackBar.open("Successful saving.", "close");
           this.isSaving = false;
         },
         error => {
