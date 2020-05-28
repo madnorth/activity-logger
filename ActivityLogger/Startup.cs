@@ -38,8 +38,8 @@ namespace ActivityLogger
             ValidatorOptions.LanguageManager.Enabled = false;
 
             services.AddDbContext<AppDbContext>(options =>
-                options.UseNpgsql(
-                        Configuration.GetConnectionString("PostgreSqlServerConnctionString")
+                options.UseSqlServer(
+                        Configuration.GetConnectionString("SqlServerConnection")
                     )
                 );
 
