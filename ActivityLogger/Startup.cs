@@ -34,6 +34,7 @@ namespace ActivityLogger
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             };
+
             ValidatorOptions.LanguageManager.Enabled = false;
 
             services.AddDbContext<AppDbContext>(options =>

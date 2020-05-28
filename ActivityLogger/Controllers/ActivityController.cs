@@ -3,7 +3,6 @@ using ActivityLogger.Services;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ActivityLogger.Controllers
@@ -31,7 +30,7 @@ namespace ActivityLogger.Controllers
         }
 
         [HttpGet("report")]
-        public async Task<ActionResult<IEnumerable<ReportItemDto>>> Report([FromQuery] DateTime date)
+        public async Task<ActionResult> Report([FromQuery] DateTime date)
         {
             var result = await _activityService.GetDailyReportAsync(date);
             if (result == null)
